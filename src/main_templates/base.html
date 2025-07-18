@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'posts:home' %} "> Home </a>
+    {% if request.user.is_authenticated %}
+    <p>
+        <a href="{% url 'posts:create' %}"> Add an article </a>
+    </p>
+
+    {% endif %}
+</nav>
+
+<section id="blog">
+    {% block content %}
+    {% endblock %}
+</section>
+
+</body>
+</html>
