@@ -64,7 +64,7 @@ ROOT_URLCONF = 'blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [SRC_DIR/ 'main_templates'],
+        'DIRS': [os.path.join(SRC_DIR/ 'main_templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,6 +129,14 @@ STATIC_ROOT= BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT= BASE_DIR / 'mediafiles'
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = 'posts:home'
+LOGOUT_REDIRECT_URL = 'login'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Add this line
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -14,6 +14,9 @@ class BlogPostAdmin(admin.ModelAdmin):
     )
 
     list_editable = ("published",)
+    search_fields = ("title", "content",)
+    list_filter =("published", "last_updated")
+    autocomplete_fields = ("author",)
 
 
 admin.site.register(BlogPost, BlogPostAdmin) #we link our model BlogPost to our class BlogPostAdmin

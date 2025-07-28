@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>{{ author.username }}'s Profile</title>
+{% endblock %}
+
+{% block content %}
+<section class="profile-section">
+    <h2>{{ author.username }}'s Posts</h2>
+
+    {% if posts %}
+    <ul class="profile-post-list">
+        {% for post in posts %}
+            <li>
+                <a href="{% url 'posts:post' slug=post.slug %}">{{ post.title }}</a>
+                <small> | {{ post.created_on|date:"M d, Y" }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        <span class="page-links">
+            {% if posts.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ posts.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            </span>
+
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    {% else %}
+        <p>No posts yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

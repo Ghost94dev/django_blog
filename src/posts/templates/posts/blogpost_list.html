@@ -1,34 +1,63 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 
 {% block title %}
-    <title> Blog Home </title>
-{%endblock%}
+    <title>Blog Home</title>
+{% endblock %}
 
 {% block content %}
+<div id="blog">
+    <h1 class="blog-title">My First Blog App</h1>
+{% for post in posts %}
+    <article class="post-card">
 
-    <h1> My first Blog App </h1>
-     {% for post in posts %}
-         <article>
+        {% if post.thumbnail %}
+            <img src="{{ post.thumbnail.url }}" alt="{{ post.title }} thumbnail" class="post-thumb">
+        {% endif %}
 
-             <div class="post-title">
-                <h2>{{ post.title }}</h2>
+        <div class="post-header">
+            <h2>{{ post.title }}</h2>
 
-                    {%if request.user.is_authenticated %}
-                <div>
-
-                 <a href="{% url 'posts:edit' slug=post.slug %}"> Edit </a>
-                 <a href="{% url 'posts:delete' slug=post.slug %}"> Delete </a>
+            {% if request.user == post.author %}
+                <div class="post-actions">
+                    <a href="{% url 'posts:edit' slug=post.slug %}">Edit</a> |
+                    <a href="{% url 'posts:delete' slug=post.slug %}">Delete</a>
                 </div>
-                 {% endif %}
-             </div>
+            {% endif %}
+        </div>
 
-             <h5 class="post-author" >Publish by <i>{{ post.author_or_default }}</i> On {{post.created_on|date:'j F Y'}}</h5>
-             <p class="post-excerpt">{{ post.content|safe|truncatewords:50}}</p>
+        <p class="post-meta">
+            Published by <i>{{ post.author_or_default }}</i> on {{ post.created_on|date:'j F Y' }}
+        </p>
 
-             <form action="{% url 'posts:post' slug=post.slug %}">
-                 <button class="btn btn-submit"> Read the article </button>
-             </form>
+        <p class="post-excerpt">
+            {{ post.content|safe|truncatewords:50 }}
+        </p>
 
-         </article>
-     {% endfor %}
-{%endblock%}
+        <a href="{% url 'posts:post' slug=post.slug %}" class="btn btn-primary">Read the article</a>
+
+    </article>
+{% empty %}
+    <p>No posts yet.</p>
+{% endfor %}
+
+<div class="pagination">
+    <span class="page-links">
+        {% if posts.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ posts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}">next</a>
+            <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+
+
+{% endblock %}
