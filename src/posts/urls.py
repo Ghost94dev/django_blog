@@ -10,7 +10,7 @@ app_name = "posts"
 
 urlpatterns = [
     path('home', (BlogHome.as_view()), name='home'),
-    path('create/', login_required(BlogPostCreateView.as_view()), name='create'),
+    path('create/', (BlogPostCreateView.as_view()), name='create'),
     path('edit/<str:slug>/',login_required(BlogPostUpdateView.as_view()) , name='edit'),
     path('delete/<str:slug>/',login_required(BlogPostDeleteView.as_view()) , name="delete"),
     path('signup/', SignUpView.as_view(), name='signup'),

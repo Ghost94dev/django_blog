@@ -2,9 +2,12 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy, reverse
 
+from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
+from django.contrib import messages
 
 
 from django.contrib.auth.models import User
@@ -56,7 +59,7 @@ class BlogPostUpdateView(UpdateView):
     fields = ['title', 'content', 'published']
 
 
-class BlogPostCreateView(CreateView):
+class BlogPostCreateView(LoginRequiredMixin , UserPassesTestMixin, CreateView):
     model = BlogPost
     template_name = "posts/blogpost_create.html"
     fields = ['title', 'content', 'published','thumbnail']
@@ -64,6 +67,13 @@ class BlogPostCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to create a post.")
+        return redirect("posts:home")
 
 
 class BlogHome(ListView):
