@@ -1,29 +1,31 @@
 ﻿# Django Blog
-# ✅ Todo List App
+# 📝 Django Blog
 
-A multi-user Todo application built with **Django** that allows users to create, update, and manage their daily tasks.
+A simple **multi-author blog application** built with Django. Users can create, edit, and share blog posts with others.
 
 ## 🚀 Features
-- User authentication (sign up, login, logout)
-- Create, update, and delete tasks
-- Categorize tasks by status (Pending / Completed)
-- Responsive design for mobile and desktop
+- User authentication
+- Create, edit, and delete posts
+- Rich text formatting
+- Multi-author support
+- Responsive UI
 
 ## 🛠 Tech Stack
 - Django (Python)
 - HTML, CSS
-- SQLite (default) or PostgreSQL
+- SQLite (default)
 
 ## 📸 Screenshots
-![Todo Screenshot 1](images/todo1.png)
-![Todo Screenshot 2](images/todo2.png)
-![Todo Screenshot 3](images/todo3.png)
+![Blog Screenshot 1](images/blog1.png)
+![Blog Screenshot 2](images/blog2.png)
+![Blog Screenshot 3](images/blog3.png)
 
 ## 🔧 Installation
 ```bash
-git clone https://github.com/YourUsername/todo-app.git
-cd todo-app
+git clone https://github.com/Ghost94dev/django-blog.git
+cd django-blog
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+
 
